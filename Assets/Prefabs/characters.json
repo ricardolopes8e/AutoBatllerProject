@@ -1,0 +1,44 @@
+{
+   "characters":[
+      {
+         "nameCharacter":"Charlie",
+         "attack":"2",
+         "health":"1",
+         "level":"1",
+         "image":"Charlie.png",
+         "abilityText":"Sell: Gain 1 Gold"
+      },
+      {
+         "nameCharacter":"Steve",
+         "attack":"2",
+         "health":"1",
+         "level":"2",
+         "image":"Steve.png",
+         "abilityText":"Sell: Gain 1 Gold"
+      },
+      {
+         "nameCharacter":"Rex",
+         "attack":"2",
+         "health":"1",
+         "level":"3",
+         "image":"Rex.png",
+         "abilityText":"Sell: Gain 1 Gold"
+      },
+      {
+         "nameCharacter":"Yosube",
+         "attack":"2",
+         "health":"1",
+         "level":"4",
+         "image":"Yosube.png",
+         "abilityText":"Sell: Gain 1 Gold"
+      },
+      {
+         "nameCharacter":"Kage",
+         "attack":"2",
+         "health":"1",
+         "level":"5",
+         "image":"Kage.png",
+         "abilityText":"Sell: Gain 1 Gold"
+      }
+   ]
+}
