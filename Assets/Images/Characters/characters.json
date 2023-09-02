@@ -1,5 +1,4 @@
-{
-   "characters":[
+[
       {
          "nameCharacter":"Charlie",
          "attack":2,
@@ -11,7 +10,7 @@
       {
          "nameCharacter":"Steve",
          "attack":2,
-         "health":1,
+         "health":3,
          "level":2,
          "image":"Steve.png",
          "abilityText":"Sell: Gain 1 Gold"
@@ -41,4 +40,3 @@
          "abilityText":"Sell: Gain 1 Gold"
       }
    ]
-}

@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CharactersAdressableGroup
+  m_EditorClassIdentifier: 
+  m_GroupName: CharactersAdressableGroup
+  m_Data:
+    m_SerializedData: []
+  m_GUID: d53b5487db5ae9c4185ea5f566eab7c5
+  m_SerializeEntries:
+  - m_GUID: 5d10c7ae0e6f94a4898417e1ea75a663
+    m_Address: Assets/Images/Characters/Character_Sample01_m.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b9ba13baf804204780ab77b0709a203
+    m_Address: Assets/Images/Characters/placeholder.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cedea9cb0486e414d8ec8794ffb9846e
+    m_Address: Assets/Images/Characters/Yosube.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b76446236559e4a7ebfbdc6519fa9d07
+    m_Address: Assets/Images/Characters/Steve.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7135d585f82ae408d8713917af908381
+    m_Address: Assets/Images/Characters/Rex.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f3b7e31eb60b84b17870d0b5d926cfad
+    m_Address: Assets/Images/Characters/Kage.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 1924d725239659e47a7abf980dfe2d82, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 28d833294671612469967093507055bf, type: 2}
+    - {fileID: 11400000, guid: 567fb8641ebef5e4f9157cc9c0ed3471, type: 2}

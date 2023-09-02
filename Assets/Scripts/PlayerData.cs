@@ -15,12 +15,10 @@ public class PlayerData : Singleton<PlayerData>
 
     private void Awake()
     {
-        Debug.LogError(Application.dataPath);
         //characterSpritesPath = Path.Combine(Application.dataPath,"Images","Characters");
         //consumableSpritesPath = Path.Combine(Application.dataPath, "Images", "Consumables");
 
         characterSpritesPath = Application.dataPath + "/Images/Characters";
         consumableSpritesPath = Application.dataPath + "/Images/Consumables";
-        Debug.LogError(consumableSpritesPath);
     }
 }

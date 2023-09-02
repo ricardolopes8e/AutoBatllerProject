@@ -1,18 +1,21 @@
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Character : MonoBehaviour
 {
 
-    private string nameCharacter;
-    private int attack;
-    private int health;
-    private int rank;
-    private int level;
+    [JsonProperty] public string nameCharacter;
+    [JsonProperty] public int attack;
+    [JsonProperty] public int health;
+    [JsonProperty] public int rank;
+    [JsonProperty] public int level;
     //private int relic;
-    private string image;
-    private string abilityText;
+    [JsonProperty] public string image;
+    [JsonProperty] public string abilityText;
 
 
     void Start()
