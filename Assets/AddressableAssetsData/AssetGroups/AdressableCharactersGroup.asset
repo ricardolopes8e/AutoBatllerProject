@@ -10,18 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: CharactersAdressableGroup
+  m_Name: AdressableCharactersGroup
   m_EditorClassIdentifier: 
-  m_GroupName: CharactersAdressableGroup
+  m_GroupName: AdressableCharactersGroup
   m_Data:
     m_SerializedData: []
   m_GUID: d53b5487db5ae9c4185ea5f566eab7c5
   m_SerializeEntries:
-  - m_GUID: 5d10c7ae0e6f94a4898417e1ea75a663
-    m_Address: Assets/Images/Characters/Character_Sample01_m.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1b9ba13baf804204780ab77b0709a203
     m_Address: Assets/Images/Characters/placeholder.png
     m_ReadOnly: 0
@@ -44,6 +39,21 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f3b7e31eb60b84b17870d0b5d926cfad
     m_Address: Assets/Images/Characters/Kage.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ebe9d3ac5ce74f3589c006da297bdc7
+    m_Address: Assets/Images/Characters/Charlie.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6975c3de651f42babaed097a5f3312b
+    m_Address: Assets/Images/Characters/Bernard.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3c72287193214996af4f29c39ba21ef
+    m_Address: Assets/Images/Characters/Rocky.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

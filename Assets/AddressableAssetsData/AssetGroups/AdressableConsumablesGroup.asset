@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: AdressableConsumablesGroup
+  m_EditorClassIdentifier: 
+  m_GroupName: AdressableConsumablesGroup
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c706553da07f0344a84527f008d966eb
+  m_SerializeEntries:
+  - m_GUID: 7dfd1cc2b84b24ff4a7ac0d3412df080
+    m_Address: Assets/Images/Consumables/Tuna.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98663b0033e5347c1a470a40f89f1f10
+    m_Address: Assets/Images/Consumables/Meat.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0882cf9c9c13842c9a3aa4fb74800f83
+    m_Address: Assets/Images/Consumables/MedKit.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 768bd451ab2124c98924895f104d3dce
+    m_Address: Assets/Images/Consumables/Clover.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44f2803dad0404cbeb9ee038d70da104
+    m_Address: Assets/Images/Consumables/Boots.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 1924d725239659e47a7abf980dfe2d82, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e28d8273d7253884492fdf6780dd6322, type: 2}
+    - {fileID: 11400000, guid: 775b0801809fff34798e05634250490d, type: 2}

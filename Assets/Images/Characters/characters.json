@@ -8,6 +8,22 @@
          "abilityText":"Sell: Gain 1 Gold"
       },
       {
+         "nameCharacter":"Bernard",
+         "attack":1,
+         "health":2,
+         "level":1,
+         "image":"Bernard.png",
+         "abilityText":"Sell: Gain 1 Gold"
+      },
+      {
+         "nameCharacter":"Rocky",
+         "attack":2,
+         "health":2,
+         "level":1,
+         "image":"Rocky.png",
+         "abilityText":"Sell: Gain 1 Gold"
+      },
+      {
          "nameCharacter":"Steve",
          "attack":2,
          "health":3,
