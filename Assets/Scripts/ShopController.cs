@@ -21,6 +21,17 @@ public class ShopController : MonoBehaviour
 
     #region shopCharacters
 
+    public Button rerollButton;
+    public Button freezeButton;
+
+    private int rerollCost = 1;
+    public TextMeshProUGUI rerollCostLabel;
+
+    private bool lockSelected;
+
+    #region shop
+
+
     [SerializeField] private TextMeshProUGUI characterShop1Level;
     [SerializeField] private TextMeshProUGUI characterShop1Attack;
     [SerializeField] private TextMeshProUGUI characterShop1Health;
@@ -61,6 +72,7 @@ public class ShopController : MonoBehaviour
         
         currentLevel = 1;
         team = new Team();
+        lockSelected = false;
         FillOrganizedCharacters();
         
         StartCoroutine(FillShop());
@@ -172,6 +184,30 @@ public class ShopController : MonoBehaviour
             }
             
         } 
+    }
+
+    public void DisableClickTeam()
+    {
+
+    }
+
+    public void EnableClickTeam()
+    {
+
+    }
+
+    public void LockClicked()
+    {
+        lockSelected = !lockSelected;
+        if(lockSelected)
+        {
+            DisableClickTeam();
+        }
+        else
+        {
+            EnableClickTeam();
+        }
+        
     }
 
 }

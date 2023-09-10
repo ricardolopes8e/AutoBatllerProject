@@ -13,7 +13,7 @@ public class LevelLoader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.LogError(Input.touchCount);
+        //Debug.LogError(Input.touchCount);
         if(Input.touchCount > 0)
         {
             LoadNextLevel();
