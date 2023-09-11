@@ -10,6 +10,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,IE
 
     private CanvasGroup canvasGroup;
 
+    private Vector3 savedCoordinatesBeginDraging;
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -19,6 +21,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,IE
     public void OnBeginDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = false;
+        savedCoordinatesBeginDraging = gameObject.transform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -29,11 +32,12 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler,IE
     public void OnEndDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = true;
+        gameObject.transform.position = savedCoordinatesBeginDraging;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     // Start is called before the first frame update
