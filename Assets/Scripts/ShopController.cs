@@ -17,9 +17,11 @@ public class ShopController : MonoBehaviour
 
     private int currentLevel;
 
-    public List<List<Character>> organizedCharacters = new List<List<Character>>();
+    [SerializeField] private TextMeshProUGUI goldLabel;
+    private int goldCount;
 
-    #region shopCharacters
+    public List<List<Character>> organizedCharacters = new List<List<Character>>();
+    public List<List<Consumable>> organizedConsumables = new List<List<Consumable>>();
 
     public Button rerollButton;
     public Button freezeButton;
@@ -27,10 +29,7 @@ public class ShopController : MonoBehaviour
     private int rerollCost = 1;
     public TextMeshProUGUI rerollCostLabel;
 
-    private bool lockSelected;
-
     #region shop
-
 
     [SerializeField] private TextMeshProUGUI characterShop1Level;
     [SerializeField] private TextMeshProUGUI characterShop1Attack;
@@ -57,11 +56,20 @@ public class ShopController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI characterShop5Health;
     [SerializeField] private Image characterShop5Sprite;
 
+    [SerializeField] private TextMeshProUGUI consumable1ShopLevel;
+    [SerializeField] private Image consumableShop1Sprite;
+
+    [SerializeField] private TextMeshProUGUI consumable2ShopLevel;
+    [SerializeField] private Image consumableShop2Sprite;
+
+    [SerializeField] private TextMeshProUGUI consumable3ShopLevel;
+    [SerializeField] private Image consumableShop3Sprite;
+
     #endregion
 
 
     // Label strings to load
-    public List<string> keys = new List<string>() {};
+    private List<string> keys = new List<string>() { };
 
     // Operation handle used to load and release assets
     AsyncOperationHandle<IList<Sprite>> loadHandle;
@@ -69,38 +77,16 @@ public class ShopController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
         currentLevel = 1;
+        goldCount = 10;
+        goldLabel.text = goldCount.ToString();
+        rerollCostLabel.text = rerollCost.ToString();
         team = new Team();
-        lockSelected = false;
         FillOrganizedCharacters();
-        
+        FillOrganizedConsumables();
+
         StartCoroutine(FillShop());
-    }
-
-
-    // Load Addressables by Label
-    public IEnumerator LoadAddressables()
-    {
-        float x = 0, z = 0;
-        loadHandle = Addressables.LoadAssetsAsync<Sprite>(
-            keys,
-            addressable =>
-            {
-                Debug.LogError("in");
-            }, Addressables.MergeMode.Union, // How to combine multiple labels 
-            false); // Whether to fail and release if any asset fails to load
-
-        yield return loadHandle;
-    }
-
-    private void OnDestroy()
-    {
-        Addressables.Release(loadHandle);
-        // Release all the loaded assets associated with loadHandle
-        // Note that if you do not make loaded addressables a child of this object,
-        // then you will need to devise another way of releasing the handle when
-        // all the individual addressables are destroyed.
     }
 
     private void FillOrganizedCharacters()
@@ -109,8 +95,8 @@ public class ShopController : MonoBehaviour
         var characters = JsonConvert.DeserializeObject<List<Character>>(charactersSerialized);
 
         List<Character> auxList;
-        
-        for (int i=1; i<6;i++)
+
+        for (int i = 1; i < 6; i++)
         {
             auxList = new List<Character>();
             foreach (var character in characters)
@@ -118,14 +104,35 @@ public class ShopController : MonoBehaviour
                 if (character.level == i)
                 {
                     auxList.Add(character);
-                    Debug.LogError(keys);
-                    Debug.LogError(character.nameCharacter);
-                    keys.Add(character.nameCharacter);
+                    keys.Add(character.image);
                 }
             }
             organizedCharacters.Add(auxList);
         }
-        
+
+    }
+
+    private void FillOrganizedConsumables()
+    {
+        var consumablesSerialized = File.ReadAllText(PlayerData.Instance.consumableSpritesPath + "/consumables.json");
+        var consumables = JsonConvert.DeserializeObject<List<Consumable>>(consumablesSerialized);
+
+        List<Consumable> auxList;
+
+        for (int i = 1; i < 4; i++)
+        {
+            auxList = new List<Consumable>();
+            foreach (var consumable in consumables)
+            {
+                if (consumable.level == i)
+                {
+                    auxList.Add(consumable);
+                    keys.Add(consumable.image);
+                }
+            }
+            organizedConsumables.Add(auxList);
+        }
+
     }
 
     private void Sprite_Completed(AsyncOperationHandle<Sprite> handle)
@@ -137,77 +144,186 @@ public class ShopController : MonoBehaviour
         }
     }
 
+    public void RerollShop()
+    {
+        RemoveGold(rerollCost);
+        StartCoroutine(FillShop());
+    }
+
+    public void RemoveGold(int amount)
+    {
+        goldCount -= amount;
+        goldLabel.text = goldCount.ToString();
+        if (goldCount == 0)
+        {
+            rerollButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void AddGold(int amount)
+    {
+        goldCount += amount;
+        goldLabel.text = goldCount.ToString();
+        if (goldCount != 0)
+        {
+            rerollButton.gameObject.SetActive(true);
+        }
+    }
+
+
     public IEnumerator FillShop()
     {
-        yield return LoadAddressables();
+        //yield return LoadAddressables();
+        yield return new WaitForSeconds(0.01f);
         var r = new System.Random();
         int rInt;
         Character character = null;
-        for (int i=0; i<5;i++)
+        for (int i = 0; i < 5; i++)
         {
-            rInt = r.Next(0, organizedCharacters[currentLevel - 1].Count - 1);
+            rInt = r.Next(0, organizedCharacters[currentLevel - 1].Count);
+            if (rInt == organizedCharacters[currentLevel - 1].Count)
+                rInt--;
 
             character = organizedCharacters[currentLevel - 1][rInt];
 
-            AsyncOperationHandle<Sprite> spriteHandle = Addressables.LoadAssetAsync<Sprite>(PlayerData.Instance.characterSpritesPath + "/" + character.image);
-            spriteHandle.Completed += Sprite_Completed;
-
+            string pathAdressable = "Assets" + PlayerData.Instance.characterSpritesPath.Split("Assets")[1] + "/" + character.image;
             switch (i)
             {
                 case 0:
                     characterShop1Level.text = character.level.ToString();
                     characterShop1Attack.text = character.attack.ToString();
                     characterShop1Health.text = character.health.ToString();
-                    Debug.LogError(character.image);
-                    characterShop1Sprite.sprite = Resources.Load<Sprite>(character.image);
+                    AsyncOperationHandle<Sprite> SpriteHandle1 = Addressables.LoadAsset<Sprite>(pathAdressable);
+                    SpriteHandle1.Completed += Sprite_Completed_CharShop1;
                     break;
                 case 1:
                     characterShop2Level.text = character.level.ToString();
                     characterShop2Attack.text = character.attack.ToString();
                     characterShop2Health.text = character.health.ToString();
+                    AsyncOperationHandle<Sprite> SpriteHandle2 = Addressables.LoadAsset<Sprite>(pathAdressable);
+                    SpriteHandle2.Completed += Sprite_Completed_CharShop2;
                     break;
                 case 2:
                     characterShop3Level.text = character.level.ToString();
                     characterShop3Attack.text = character.attack.ToString();
                     characterShop3Health.text = character.health.ToString();
+                    AsyncOperationHandle<Sprite> SpriteHandle3 = Addressables.LoadAsset<Sprite>(pathAdressable);
+                    SpriteHandle3.Completed += Sprite_Completed_CharShop3;
                     break;
                 case 3:
                     characterShop4Level.text = character.level.ToString();
                     characterShop4Attack.text = character.attack.ToString();
                     characterShop4Health.text = character.health.ToString();
+                    AsyncOperationHandle<Sprite> SpriteHandle4 = Addressables.LoadAsset<Sprite>(pathAdressable);
+                    SpriteHandle4.Completed += Sprite_Completed_CharShop4;
                     break;
                 case 4:
                     characterShop5Level.text = character.level.ToString();
                     characterShop5Attack.text = character.attack.ToString();
                     characterShop5Health.text = character.health.ToString();
+                    AsyncOperationHandle<Sprite> SpriteHandle5 = Addressables.LoadAsset<Sprite>(pathAdressable);
+                    SpriteHandle5.Completed += Sprite_Completed_CharShop5;
                     break;
             }
-            
-        } 
-    }
-
-    public void DisableClickTeam()
-    {
-
-    }
-
-    public void EnableClickTeam()
-    {
-
-    }
-
-    public void LockClicked()
-    {
-        lockSelected = !lockSelected;
-        if(lockSelected)
-        {
-            DisableClickTeam();
         }
-        else
+
+        Consumable consumable = null;
+
+        for (int i = 0; i < 5; i++)
         {
-            EnableClickTeam();
+            rInt = r.Next(0, organizedConsumables[currentLevel - 1].Count);
+            if (rInt == organizedConsumables[currentLevel - 1].Count)
+                rInt--;
+
+            consumable = organizedConsumables[currentLevel - 1][rInt];
+
+            string pathAdressable = "Assets" + PlayerData.Instance.consumableSpritesPath.Split("Assets")[1] + "/" + consumable.image;
+            switch (i)
+            {
+                case 0:
+                    consumable1ShopLevel.text = consumable.level.ToString();
+                    AsyncOperationHandle<Sprite> SpriteHandle1 = Addressables.LoadAsset<Sprite>(pathAdressable);
+                    SpriteHandle1.Completed += Sprite_Completed_ConsumableShop1;
+                    break;
+                case 1:
+                    consumable2ShopLevel.text = character.level.ToString();
+                    AsyncOperationHandle<Sprite> SpriteHandle2 = Addressables.LoadAsset<Sprite>(pathAdressable);
+                    SpriteHandle2.Completed += Sprite_Completed_ConsumableShop2;
+                    break;
+                case 2:
+                    consumable3ShopLevel.text = character.level.ToString();
+                    AsyncOperationHandle<Sprite> SpriteHandle3 = Addressables.LoadAsset<Sprite>(pathAdressable);
+                    SpriteHandle3.Completed += Sprite_Completed_ConsumableShop3;
+                    break;
+            }
+
         }
-        
+    }
+
+    private void Sprite_Completed_CharShop1(AsyncOperationHandle<Sprite> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            characterShop1Sprite.sprite = handle.Result;
+
+        }
+    }
+    private void Sprite_Completed_CharShop2(AsyncOperationHandle<Sprite> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            characterShop2Sprite.sprite = handle.Result;
+
+        }
+    }
+    private void Sprite_Completed_CharShop3(AsyncOperationHandle<Sprite> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            characterShop3Sprite.sprite = handle.Result;
+
+        }
+    }
+    private void Sprite_Completed_CharShop4(AsyncOperationHandle<Sprite> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            characterShop4Sprite.sprite = handle.Result;
+
+        }
+    }
+    private void Sprite_Completed_CharShop5(AsyncOperationHandle<Sprite> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            characterShop5Sprite.sprite = handle.Result;
+
+        }
+    }
+
+    private void Sprite_Completed_ConsumableShop1(AsyncOperationHandle<Sprite> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            consumableShop1Sprite.sprite = handle.Result;
+
+        }
+    }
+    private void Sprite_Completed_ConsumableShop2(AsyncOperationHandle<Sprite> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            consumableShop2Sprite.sprite = handle.Result;
+
+        }
+    }
+    private void Sprite_Completed_ConsumableShop3(AsyncOperationHandle<Sprite> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            consumableShop3Sprite.sprite = handle.Result;
+
+        }
     }
 
 }

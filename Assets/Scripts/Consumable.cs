@@ -5,10 +5,10 @@ using UnityEngine;
 public class Consumable : MonoBehaviour
 {
 
-    private string nameConsumable;
-    private int level;
-    private string image;
-    private string abilityText;
+    public string nameConsumable;
+    public int level;
+    public string image;
+    public string abilityText;
 
     // Start is called before the first frame update
     void Start()

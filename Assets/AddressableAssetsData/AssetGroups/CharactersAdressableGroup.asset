@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: d53b5487db5ae9c4185ea5f566eab7c5
   m_SerializeEntries:
-  - m_GUID: 5d10c7ae0e6f94a4898417e1ea75a663
-    m_Address: Assets/Images/Characters/Character_Sample01_m.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1b9ba13baf804204780ab77b0709a203
     m_Address: Assets/Images/Characters/placeholder.png
     m_ReadOnly: 0
@@ -44,6 +39,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f3b7e31eb60b84b17870d0b5d926cfad
     m_Address: Assets/Images/Characters/Kage.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ebe9d3ac5ce74f3589c006da297bdc7
+    m_Address: Assets/Images/Characters/Charlie.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
