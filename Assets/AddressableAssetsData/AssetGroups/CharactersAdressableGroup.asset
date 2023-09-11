@@ -47,6 +47,41 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1bb7787dc5f6ab842b23bfedbcc87387
+    m_Address: Assets/Images/Consumables/Tuna.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6dd93da7bf0262c49862b0fd8a9bc008
+    m_Address: Assets/Images/Consumables/MedKit.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0c48077c26db744f99cf48bfa86136e
+    m_Address: Assets/Images/Consumables/Meat.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0fb8fcb7a466d2e4383e2b5b6666ad9a
+    m_Address: Assets/Images/Consumables/Boots.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 02eaf72d4a1f53e48932c211c1b73c3a
+    m_Address: Assets/Images/Consumables/Clover.Png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3c72287193214996af4f29c39ba21ef
+    m_Address: Assets/Images/Characters/Rockie.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6975c3de651f42babaed097a5f3312b
+    m_Address: Assets/Images/Characters/Bernard.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1924d725239659e47a7abf980dfe2d82, type: 2}
   m_SchemaSet:
