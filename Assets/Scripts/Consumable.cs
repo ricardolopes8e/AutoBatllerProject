@@ -6,6 +6,7 @@ public class Consumable : MonoBehaviour
 {
 
     public string nameConsumable;
+    public int cost;
     public int level;
     public string image;
     public string abilityText;
@@ -14,6 +15,7 @@ public class Consumable : MonoBehaviour
     void Start()
     {
         nameConsumable = "Meat";
+        cost = 1;
         level = 1;
         image = "Meat.png";
         abilityText = "Placeholder text";

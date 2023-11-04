@@ -1,31 +1,36 @@
 [
       {
          "nameCharacter":"Meat",
-         "level":1,
+	 "cost" : "3",
+         "level":3,
          "image":"Meat.Png",
          "abilityText":"Sell: Gain 1 Gold"
       },
       {
          "nameCharacter":"Tuna",
+	 "cost" : "2",
          "level":1,
          "image":"Tuna.Png",
          "abilityText":"Sell: Gain 1 Gold"
       },
       {
          "nameCharacter":"MedKit",
-         "level":1,
+	 "cost" : "5",
+         "level":5,
          "image":"MedKit.Png",
          "abilityText":"Sell: Gain 1 Gold"
       },
       {
          "nameCharacter":"Boots",
+	 "cost" : "2",
          "level":2,
          "image":"Boots.png",
          "abilityText":"Sell: Gain 1 Gold"
       },
       {
          "nameCharacter":"Clover",
-         "level":3,
+	 "cost" : "3",
+         "level":4,
          "image":"Clover.png",
          "abilityText":"Sell: Gain 1 Gold"
       }

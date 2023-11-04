@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
 {
 
     [JsonProperty] public string nameCharacter;
+    [JsonProperty] public int cost;
     [JsonProperty] public int attack;
     [JsonProperty] public int health;
     [JsonProperty] public int rank;
@@ -18,9 +19,11 @@ public class Character : MonoBehaviour
     [JsonProperty] public string abilityText;
 
 
+
     void Start()
     {
         nameCharacter = "placeHolder";
+        cost = 1;
         attack = 1;
         health = 1;
         rank = 1;
