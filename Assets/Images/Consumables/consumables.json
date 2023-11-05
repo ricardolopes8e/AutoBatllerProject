@@ -24,14 +24,14 @@
          "nameCharacter":"Boots",
 	 "cost" : "2",
          "level":2,
-         "image":"Boots.png",
+         "image":"Boots.Png",
          "abilityText":"Sell: Gain 1 Gold"
       },
       {
          "nameCharacter":"Clover",
 	 "cost" : "3",
          "level":4,
-         "image":"Clover.png",
+         "image":"Clover.Png",
          "abilityText":"Sell: Gain 1 Gold"
       }
    ]

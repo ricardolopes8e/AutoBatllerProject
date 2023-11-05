@@ -1,6 +1,7 @@
 [
       {
          "nameCharacter":"Charlie",
+	 "cost":1,
          "attack":2,
          "health":1,
          "level":1,
@@ -9,6 +10,7 @@
       },
       {
          "nameCharacter":"Bernard",
+	 "cost":2,
          "attack":1,
          "health":2,
          "level":1,
@@ -17,6 +19,7 @@
       },
       {
          "nameCharacter":"Rockie",
+	 "cost":3,
          "attack":2,
          "health":2,
          "level":1,
@@ -25,6 +28,7 @@
       },
       {
          "nameCharacter":"Steve",
+	 "cost":4,
          "attack":2,
          "health":3,
          "level":2,
@@ -33,6 +37,7 @@
       },
       {
          "nameCharacter":"Rex",
+	 "cost":5,
          "attack":2,
          "health":1,
          "level":3,
@@ -41,6 +46,7 @@
       },
       {
          "nameCharacter":"Yosube",
+	 "cost":8,
          "attack":2,
          "health":1,
          "level":4,
@@ -49,6 +55,7 @@
       },
       {
          "nameCharacter":"Kage",
+	 "cost":12,
          "attack":2,
          "health":1,
          "level":5,

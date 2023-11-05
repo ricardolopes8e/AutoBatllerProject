@@ -10,12 +10,13 @@ using Unity.Burst.CompilerServices;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.AddressableAssets;
 using Unity.IO.LowLevel.Unsafe;
+//using UnityEngine.UIElements;
 
 public class ShopController : MonoBehaviour
 {
     private Team team;
 
-    private int currentLevel;
+
 
     [SerializeField] private TextMeshProUGUI goldLabel;
     private int goldCount;
@@ -75,6 +76,37 @@ public class ShopController : MonoBehaviour
     [SerializeField] private Image consumable3ShopGlow;
     [SerializeField] private Image consumableShop3Sprite;
 
+    private int[,] rarityTable = new int[9, 5] { {100,0,0,0,0},
+                                            {100,0,0,0,0},
+                                            {75,25,0,0,0},
+                                            {55,30,15,0,0},
+                                            {45,33,20,2,5},
+                                            {25,40,30,5,0},
+                                            {19,30,35,15,1},
+                                            {16,20,35,25,4},
+                                            {9,15,30,30,16}};
+
+    #endregion
+
+    #region level
+
+    [SerializeField]
+    private TextMeshProUGUI currentLevelLabel;
+    private int currentLevel;
+
+    [SerializeField]
+    private TextMeshProUGUI currentExpLabel;
+    private int currentExp;
+
+    [SerializeField]
+    private TextMeshProUGUI levelExpLabel;
+    private int levelExp;
+
+    [SerializeField]
+    private GameObject levelExpGO;
+
+    private int[] expPerLevel= new int[9] {2,4,10,20,32,40,60,80,-1};
+
     #endregion
 
 
@@ -82,15 +114,7 @@ public class ShopController : MonoBehaviour
     // Label strings to load
     private List<string> keys = new List<string>() { };
 
-    private int[,] rarityTable = new int[9, 5] { {100,0,0,0,0},
-                                            {100,0,0,0,0}, 
-                                            {75,25,0,0,0}, 
-                                            {55,30,15,0,0}, 
-                                            {45,33,20,2,5}, 
-                                            {25,40,30,5,0}, 
-                                            {19,30,35,15,1}, 
-                                            {16,20,35,25,4},
-                                            {9,15,30,30,16}};
+    
 
 
     // Operation handle used to load and release assets
@@ -99,16 +123,23 @@ public class ShopController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        raritiesColors[0] = Color.white;
-        raritiesColors[1] = Color.green;
-        raritiesColors[2] = Color.blue;
-        raritiesColors[3] = new Color(255, 0, 255);
-        raritiesColors[4] = Color.yellow;
-        currentLevel = 8;
-        goldCount = 10;
+        raritiesColors[0] = new Color(255, 255, 255, 0.5f);
+        raritiesColors[1] = new Color(0, 255, 0, 0.5f);
+        raritiesColors[2] = new Color(0, 0, 255, 0.5f);
+        raritiesColors[3] = new Color(255, 0, 255, 0.5f);
+        raritiesColors[4] = new Color(255, 220, 0, 0.5f);
+        currentLevel = 1;
+        currentLevelLabel.text = currentLevel.ToString();
+        currentExp = 0;
+        currentExpLabel.text = currentExp.ToString();
+        levelExp = expPerLevel[currentLevel - 1];
+        levelExpLabel.text = levelExp.ToString();
+        goldCount = 0;
+        AddGold(900);
         goldLabel.text = goldCount.ToString();
         rerollCostLabel.text = rerollCost.ToString();
-        //team = new Team();
+        levelExpGO.SetActive(true);
+        team = new Team();
         team = GetComponent<Team>();
         FillOrganizedCharacters();
         FillOrganizedConsumables();
@@ -228,13 +259,9 @@ public class ShopController : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             generatedRarity = GenerateCharacterRarity();
-            Debug.LogError(generatedRarity);
-            Debug.LogError(organizedCharacters[generatedRarity - 1].Count);
-            rInt = r.Next(0, organizedCharacters[generatedRarity - 1].Count -1);
+            rInt = r.Next(0, organizedCharacters[generatedRarity].Count);
             
-            Debug.LogError(rInt);
-            
-            character = organizedCharacters[generatedRarity-1][rInt];
+            character = organizedCharacters[generatedRarity][rInt];
 
             string pathAdressable = "Assets" + PlayerData.Instance.characterSpritesPath.Split("Assets")[1] + "/" + character.image;
             switch (i)
@@ -287,11 +314,9 @@ public class ShopController : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             generatedRarity = GenerateCharacterRarity();
-            rInt = r.Next(0, organizedConsumables[generatedRarity - 1].Count);
-            if (rInt == organizedConsumables[generatedRarity - 1].Count)
-                rInt--;
+            rInt = r.Next(0, organizedConsumables[generatedRarity].Count);
 
-            consumable = organizedConsumables[generatedRarity - 1][rInt];
+            consumable = organizedConsumables[generatedRarity][rInt];
 
             string pathAdressable = "Assets" + PlayerData.Instance.consumableSpritesPath.Split("Assets")[1] + "/" + consumable.image;
             switch (i)
@@ -322,6 +347,28 @@ public class ShopController : MonoBehaviour
     public void SellCharacter(int position)
     {
         
+    }
+
+    public void BuyExp()
+    {
+        currentExp += 4;
+        RemoveGold(4);
+        if (currentExp >= levelExp)
+        {
+            currentLevel++;
+            currentLevelLabel.text = currentLevel.ToString();
+            if (expPerLevel[currentLevel]>0)
+            {           
+                currentExp -= levelExp;
+                currentExpLabel.text = currentExp.ToString();          
+                levelExp = expPerLevel[currentLevel];
+                levelExpLabel.text = levelExp.ToString();
+            }
+            else
+            {
+                levelExpGO.SetActive(false);
+            }
+        }
     }
 
 
