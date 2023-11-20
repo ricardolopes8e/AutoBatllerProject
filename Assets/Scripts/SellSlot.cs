@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class SellSlot : MonoBehaviour, IDropHandler
     {
         if (eventData.pointerDrag.ToString().StartsWith("Char_"))
         {
-            shopController.SellCharacter(System.Int32.Parse(eventData.pointerDrag.ToString().Split("_")[1]) -1);
+            shopController.SellCharacter(int.Parse(eventData.pointerDrag.name.ToString().Split("_")[1]) -1);
         }
     }
     void OnCollisionEnter2D(Collision2D col)

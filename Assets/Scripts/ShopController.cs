@@ -14,15 +14,15 @@ using Unity.IO.LowLevel.Unsafe;
 
 public class ShopController : MonoBehaviour
 {
-    private Team team;
-
-
-
     [SerializeField] private TextMeshProUGUI goldLabel;
     private int goldCount;
 
     public List<List<Character>> organizedCharacters = new List<List<Character>>();
     public List<List<Consumable>> organizedConsumables = new List<List<Consumable>>();
+
+    public List<CharacterTeamController> teamCharactersControllers;
+    public List<CharacterShopController> shopCharactersControllers;
+    public List<ConsumableShopController> consumableControllers;
 
     public Button rerollButton;
     public Button freezeButton;
@@ -31,74 +31,6 @@ public class ShopController : MonoBehaviour
     public TextMeshProUGUI rerollCostLabel;
 
     private Color[] raritiesColors = new Color[5];
-
-    #region shop
-
-    [SerializeField] private TextMeshProUGUI characterShop1Cost;
-    [SerializeField] private TextMeshProUGUI characterShop1Attack;
-    [SerializeField] private TextMeshProUGUI characterShop1Health;
-    [SerializeField] private Image characterShop1Sprite;
-    [SerializeField] private Image characterShop1Glow;
-    [SerializeField] private GameObject characterShop1SaleGO;
-    [SerializeField] private TextMeshProUGUI characterShop1SaleCost;
-    [SerializeField] private Image characterShop1Lock;
-
-    [SerializeField] private TextMeshProUGUI characterShop2Cost;
-    [SerializeField] private TextMeshProUGUI characterShop2Attack;
-    [SerializeField] private TextMeshProUGUI characterShop2Health;
-    [SerializeField] private Image characterShop2Sprite;
-    [SerializeField] private Image characterShop2Glow;
-    [SerializeField] private GameObject characterShop2SaleGO;
-    [SerializeField] private TextMeshProUGUI characterShop2SaleCost;
-    [SerializeField] private Image characterShop2Lock;
-
-    [SerializeField] private TextMeshProUGUI characterShop3Cost;
-    [SerializeField] private TextMeshProUGUI characterShop3Attack;
-    [SerializeField] private TextMeshProUGUI characterShop3Health;
-    [SerializeField] private Image characterShop3Sprite;
-    [SerializeField] private Image characterShop3Glow;
-    [SerializeField] private GameObject characterShop3SaleGO;
-    [SerializeField] private TextMeshProUGUI characterShop3SaleCost;
-    [SerializeField] private Image characterShop3Lock;
-
-    [SerializeField] private TextMeshProUGUI characterShop4Cost;
-    [SerializeField] private TextMeshProUGUI characterShop4Attack;
-    [SerializeField] private TextMeshProUGUI characterShop4Health;
-    [SerializeField] private Image characterShop4Sprite;
-    [SerializeField] private Image characterShop4Glow;
-    [SerializeField] private GameObject characterShop4SaleGO;
-    [SerializeField] private TextMeshProUGUI characterShop4SaleCost;
-    [SerializeField] private Image characterShop4Lock;
-
-    [SerializeField] private TextMeshProUGUI characterShop5Cost;
-    [SerializeField] private TextMeshProUGUI characterShop5Attack;
-    [SerializeField] private TextMeshProUGUI characterShop5Health;
-    [SerializeField] private Image characterShop5Sprite;
-    [SerializeField] private Image characterShop5Glow;
-    [SerializeField] private GameObject characterShop5SaleGO;
-    [SerializeField] private TextMeshProUGUI characterShop5SaleCost;
-    [SerializeField] private Image characterShop5Lock;
-
-    [SerializeField] private TextMeshProUGUI consumable1ShopCost;
-    [SerializeField] private Image consumable1ShopGlow;
-    [SerializeField] private Image consumableShop1Sprite;
-    [SerializeField] private GameObject consumableShop1SaleGO;
-    [SerializeField] private TextMeshProUGUI consumableShop1SaleCost;
-    [SerializeField] private Image consumableShop1Lock;
-
-    [SerializeField] private TextMeshProUGUI consumable2ShopCost;
-    [SerializeField] private Image consumable2ShopGlow;
-    [SerializeField] private Image consumableShop2Sprite;
-    [SerializeField] private GameObject consumableShop2SaleGO;
-    [SerializeField] private TextMeshProUGUI consumableShop2SaleCost;
-    [SerializeField] private Image consumableShop2Lock;
-
-    [SerializeField] private TextMeshProUGUI consumable3ShopCost;
-    [SerializeField] private Image consumable3ShopGlow;
-    [SerializeField] private Image consumableShop3Sprite;
-    [SerializeField] private GameObject consumableShop3SaleGO;
-    [SerializeField] private TextMeshProUGUI consumableShop3SaleCost;
-    [SerializeField] private Image consumableShop3Lock;
 
     private int[,] rarityTable = new int[9, 5] { {100,0,0,0,0},
                                             {100,0,0,0,0},
@@ -111,8 +43,6 @@ public class ShopController : MonoBehaviour
                                             {9,15,30,30,16}};
 
     private int saleOdds;
-
-    #endregion
 
     #region level
 
@@ -154,11 +84,6 @@ public class ShopController : MonoBehaviour
         raritiesColors[2] = new Color(0, 0, 255, 0.5f);
         raritiesColors[3] = new Color(255, 0, 255, 0.5f);
         raritiesColors[4] = new Color(255, 220, 0, 0.5f);
-        characterShop1SaleCost.text = "-1";
-        characterShop2SaleCost.text = "-1";
-        characterShop3SaleCost.text = "-1";
-        characterShop4SaleCost.text = "-1";
-        characterShop5SaleCost.text = "-1";
 
         saleOdds = 5;
         currentLevel = 1;
@@ -172,8 +97,7 @@ public class ShopController : MonoBehaviour
         goldLabel.text = goldCount.ToString();
         rerollCostLabel.text = rerollCost.ToString();
         levelExpGO.SetActive(true);
-        team = new Team();
-        //team = GetComponent<Team>();
+
         FillOrganizedCharacters();
         FillOrganizedConsumables();
 
@@ -297,109 +221,50 @@ public class ShopController : MonoBehaviour
             character = organizedCharacters[generatedRarity][rInt];
 
             string pathAdressable = "Assets" + PlayerData.Instance.characterSpritesPath.Split("Assets")[1] + "/" + character.image;
+
+            shopCharactersControllers[i].cost.text = character.cost.ToString();
+            shopCharactersControllers[i].attack.text = character.attack.ToString();
+            shopCharactersControllers[i].health.text = character.health.ToString();
+            shopCharactersControllers[i].glow.color = raritiesColors[character.level - 1];
+            rInt = r.Next(0, 100);
+            if (rInt < saleOdds)
+            {
+                shopCharactersControllers[i].saleCost.text = Mathf.CeilToInt((float)character.cost / (float)2).ToString();
+                shopCharactersControllers[i].saleGO.SetActive(true);
+            }
+            else
+            {
+                shopCharactersControllers[i].saleGO.SetActive(false);
+                shopCharactersControllers[i].saleCost.text = "-1";
+            }
             switch (i)
             {
                 case 0:
-                    characterShop1Cost.text = character.cost.ToString();
-                    characterShop1Attack.text = character.attack.ToString();
-                    characterShop1Health.text = character.health.ToString();
                     AsyncOperationHandle<Sprite> SpriteHandle1 = Addressables.LoadAsset<Sprite>(pathAdressable);
                     SpriteHandle1.Completed += Sprite_Completed_CharShop1;
-                    characterShop1Glow.color = raritiesColors[character.level - 1];
-                    rInt = r.Next(0, 100); 
-                    if (rInt < saleOdds)
-                    {
-                        characterShop1SaleCost.text = Mathf.CeilToInt((float)character.cost/(float)2).ToString();
-                        characterShop1SaleGO.SetActive(true);  
-                    }
-                    else
-                    {
-                        characterShop1SaleGO.SetActive(false);
-                        characterShop1SaleCost.text = "-1";
-                    }
                     break;
                 case 1:
-                    characterShop2Cost.text = character.cost.ToString();
-                    characterShop2Attack.text = character.attack.ToString();
-                    characterShop2Health.text = character.health.ToString();
                     AsyncOperationHandle<Sprite> SpriteHandle2 = Addressables.LoadAsset<Sprite>(pathAdressable);
                     SpriteHandle2.Completed += Sprite_Completed_CharShop2;
-                    characterShop2Glow.color = raritiesColors[character.level - 1];
-                    rInt = r.Next(0, 100);
-                    if (rInt < saleOdds)
-                    {
-                        characterShop2SaleCost.text = Mathf.CeilToInt((float)character.cost / (float)2).ToString();
-                        characterShop2SaleGO.SetActive(true);
-                    }
-                    else
-                    {
-                        characterShop2SaleGO.SetActive(false);
-                        characterShop2SaleCost.text = "-1";
-                    }
                     break;
                 case 2:
-                    characterShop3Cost.text = character.cost.ToString();
-                    characterShop3Attack.text = character.attack.ToString();
-                    characterShop3Health.text = character.health.ToString();
                     AsyncOperationHandle<Sprite> SpriteHandle3 = Addressables.LoadAsset<Sprite>(pathAdressable);
                     SpriteHandle3.Completed += Sprite_Completed_CharShop3;
-                    characterShop3Glow.color = raritiesColors[character.level - 1];
-                    rInt = r.Next(0, 100);
-                    if (rInt < saleOdds)
-                    {
-                        characterShop3SaleCost.text = Mathf.CeilToInt((float)character.cost / (float)2).ToString();
-                        characterShop3SaleGO.SetActive(true);
-                    }
-                    else
-                    {
-                        characterShop3SaleGO.SetActive(false);
-                        characterShop3SaleCost.text = "-1";
-                    }
                     break;
                 case 3:
-                    characterShop4Cost.text = character.cost.ToString();
-                    characterShop4Attack.text = character.attack.ToString();
-                    characterShop4Health.text = character.health.ToString();
                     AsyncOperationHandle<Sprite> SpriteHandle4 = Addressables.LoadAsset<Sprite>(pathAdressable);
                     SpriteHandle4.Completed += Sprite_Completed_CharShop4;
-                    characterShop4Glow.color = raritiesColors[character.level - 1];
-                    rInt = r.Next(0, 100);
-                    if (rInt < saleOdds)
-                    {
-                        characterShop4SaleCost.text = Mathf.CeilToInt((float)character.cost / (float)2).ToString();
-                        characterShop4SaleGO.SetActive(true);
-                    }
-                    else
-                    {
-                        characterShop4SaleGO.SetActive(false);
-                        characterShop4SaleCost.text = "-1";
-                    }
                     break;
                 case 4:
-                    characterShop5Cost.text = character.cost.ToString();
-                    characterShop5Attack.text = character.attack.ToString();
-                    characterShop5Health.text = character.health.ToString();
                     AsyncOperationHandle<Sprite> SpriteHandle5 = Addressables.LoadAsset<Sprite>(pathAdressable);
                     SpriteHandle5.Completed += Sprite_Completed_CharShop5;
-                    characterShop5Glow.color = raritiesColors[character.level - 1];
-                    rInt = r.Next(0, 100);
-                    if (rInt < saleOdds)
-                    {
-                        characterShop5SaleCost.text = Mathf.CeilToInt((float)character.cost / (float)2).ToString();
-                        characterShop5SaleGO.SetActive(true);
-                    }
-                    else
-                    {
-                        characterShop5SaleGO.SetActive(false);
-                        characterShop5SaleCost.text = "-1";
-                    }
                     break;
             }
         }
 
         Consumable consumable = null;
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             generatedRarity = GenerateCharacterRarity();
             rInt = r.Next(0, organizedConsumables[generatedRarity].Count);
@@ -407,58 +272,34 @@ public class ShopController : MonoBehaviour
             consumable = organizedConsumables[generatedRarity][rInt];
 
             string pathAdressable = "Assets" + PlayerData.Instance.consumableSpritesPath.Split("Assets")[1] + "/" + consumable.image;
+
+            consumableControllers[i].cost.text = consumable.cost.ToString();
+            consumableControllers[i].glow.color = raritiesColors[consumable.level - 1];
+            rInt = r.Next(0, 100);
+            if (rInt < saleOdds)
+            {
+                consumableControllers[i].saleCost.text = Mathf.CeilToInt((float)consumable.cost / (float)2).ToString();
+                consumableControllers[i].saleGO.SetActive(true);
+            }
+            else
+            {
+                consumableControllers[i].saleGO.SetActive(false);
+                consumableControllers[i].saleCost.text = "-1";
+            }
+
             switch (i)
             {
                 case 0:
-                    consumable1ShopCost.text = consumable.cost.ToString();
                     AsyncOperationHandle<Sprite> SpriteHandle1 = Addressables.LoadAsset<Sprite>(pathAdressable);
                     SpriteHandle1.Completed += Sprite_Completed_ConsumableShop1;
-                    consumable1ShopGlow.color = raritiesColors[consumable.level - 1];
-                    rInt = r.Next(0, 100);
-                    if (rInt < saleOdds)
-                    {
-                        consumableShop1SaleCost.text = Mathf.CeilToInt((float)consumable.cost / (float)2).ToString();
-                        consumableShop1SaleGO.SetActive(true);
-                    }
-                    else
-                    {
-                        consumableShop1SaleGO.SetActive(false);
-                        consumableShop1SaleCost.text = "-1";
-                    }
                     break;
                 case 1:
-                    consumable2ShopCost.text = consumable.cost.ToString();
                     AsyncOperationHandle<Sprite> SpriteHandle2 = Addressables.LoadAsset<Sprite>(pathAdressable);
                     SpriteHandle2.Completed += Sprite_Completed_ConsumableShop2;
-                    consumable2ShopGlow.color = raritiesColors[consumable.level - 1];
-                    rInt = r.Next(0, 100);
-                    if (rInt < saleOdds)
-                    {
-                        consumableShop2SaleCost.text = Mathf.CeilToInt((float)consumable.cost / (float)2).ToString();
-                        consumableShop2SaleGO.SetActive(true);
-                    }
-                    else
-                    {
-                        consumableShop2SaleGO.SetActive(false);
-                        consumableShop2SaleCost.text = "-1";
-                    }
                     break;
                 case 2:
-                    consumable3ShopCost.text = consumable.cost.ToString();
                     AsyncOperationHandle<Sprite> SpriteHandle3 = Addressables.LoadAsset<Sprite>(pathAdressable);
                     SpriteHandle3.Completed += Sprite_Completed_ConsumableShop3;
-                    consumable3ShopGlow.color = raritiesColors[consumable.level - 1];
-                    rInt = r.Next(0, 100);
-                    if (rInt < saleOdds)
-                    {
-                        consumableShop3SaleCost.text = Mathf.CeilToInt((float)consumable.cost / (float)2).ToString();
-                        consumableShop3SaleGO.SetActive(true);
-                    }
-                    else
-                    {
-                        consumableShop3SaleGO.SetActive(false);
-                        consumableShop3SaleCost.text = "-1";
-                    }
                     break;
             }
 
@@ -467,7 +308,11 @@ public class ShopController : MonoBehaviour
 
     public void SellCharacter(int position)
     {
-        
+        int gold = (int)(teamCharactersControllers[position].cost / 2) * teamCharactersControllers[position].rank;
+        if (gold < 1)
+            gold = 1;
+        AddGold(gold);
+        teamCharactersControllers[position].Sell();
     }
 
     public void BuyExp()
@@ -507,40 +352,35 @@ public class ShopController : MonoBehaviour
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            characterShop1Sprite.sprite = handle.Result;
-
+            shopCharactersControllers[0].characterImage.sprite = handle.Result;
         }
     }
     private void Sprite_Completed_CharShop2(AsyncOperationHandle<Sprite> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            characterShop2Sprite.sprite = handle.Result;
-
+            shopCharactersControllers[1].characterImage.sprite = handle.Result;
         }
     }
     private void Sprite_Completed_CharShop3(AsyncOperationHandle<Sprite> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            characterShop3Sprite.sprite = handle.Result;
-
+            shopCharactersControllers[2].characterImage.sprite = handle.Result;
         }
     }
     private void Sprite_Completed_CharShop4(AsyncOperationHandle<Sprite> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            characterShop4Sprite.sprite = handle.Result;
-
+            shopCharactersControllers[3].characterImage.sprite = handle.Result;
         }
     }
     private void Sprite_Completed_CharShop5(AsyncOperationHandle<Sprite> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            characterShop5Sprite.sprite = handle.Result;
-
+            shopCharactersControllers[4].characterImage.sprite = handle.Result;
         }
     }
 
@@ -548,7 +388,7 @@ public class ShopController : MonoBehaviour
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            consumableShop1Sprite.sprite = handle.Result;
+            consumableControllers[0].consumableImage.sprite = handle.Result;
 
         }
     }
@@ -556,7 +396,7 @@ public class ShopController : MonoBehaviour
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            consumableShop2Sprite.sprite = handle.Result;
+            consumableControllers[1].consumableImage.sprite = handle.Result;
 
         }
     }
@@ -564,7 +404,7 @@ public class ShopController : MonoBehaviour
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            consumableShop3Sprite.sprite = handle.Result;
+            consumableControllers[2].consumableImage.sprite = handle.Result;
 
         }
     }
